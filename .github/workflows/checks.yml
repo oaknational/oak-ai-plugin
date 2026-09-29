@@ -1,0 +1,87 @@
+name: Checks
+
+# Plugin validation, Markdown lint, formatting, secret scanning and commit
+# messages. The plugin under claude/ is a copy from
+# oak-open-curriculum-ecosystem, so the lint and format settings match that
+# repository's: a finding in a copied file is fixed there, not here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  plugin:
+    name: Plugin validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+      - name: Install the pinned Claude Code binary (lifecycle scripts disabled)
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund @anthropic-ai/claude-code-linux-x64@2.1.283
+      - name: Validate the marketplace
+        run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict .
+      - name: Validate the Claude plugin
+        run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/oak-open-curriculum
+
+  lint-and-format:
+    name: Markdown lint + Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+      - name: Install pinned lint tools (lifecycle scripts disabled)
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund markdownlint-cli2@0.23.2 prettier@3.9.6
+      - name: markdownlint
+        run: ./node_modules/.bin/markdownlint-cli2
+      - name: Prettier (check)
+        run: ./node_modules/.bin/prettier --check "**/*.{md,json,yaml,yml}"
+
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run gitleaks
+        # --proto '=https' keeps every hop on HTTPS; the archive is checked
+        # against the release's published sha256 before it runs.
+        run: |
+          VERSION=8.30.1
+          SHA256=551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+          curl -sSL --proto '=https' --tlsv1.2 \
+            -o gitleaks.tar.gz \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz"
+          echo "${SHA256}  gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf gitleaks.tar.gz gitleaks
+          ./gitleaks detect --no-git --source . --redact --no-banner -v
+
+  commitlint:
+    name: Conventional commits
+    # Dependabot's subjects fail subject-case and its format isn't configurable.
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read # reads the PR's commit list
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@b948419dd99f3fd78a6548d48f94e3df7f6bf3ed # v6.2.1
+        with:
+          configFile: .commitlintrc.json

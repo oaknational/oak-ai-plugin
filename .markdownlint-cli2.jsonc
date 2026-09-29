@@ -1,0 +1,22 @@
+{
+  // The rules match oak-open-curriculum-ecosystem's .markdownlint.json, because
+  // the plugin under claude/ is copied from there and fixed there.
+  "config": {
+    "MD004": { "style": "dash" },
+    "no-inline-html": false,
+    "line-length": false,
+    "no-duplicate-heading": { "siblings_only": true },
+    "no-emphasis-as-heading": false,
+    "code-block-style": false,
+    "MD025": false,
+    "MD026": false,
+    "MD040": true,
+    "MD041": false,
+    "MD060": false,
+    "no-alt-text": false,
+    "ol-prefix": false
+  },
+  "globs": ["**/*.md"],
+  // The ecosystem does not lint changelogs.
+  "ignores": ["node_modules/**", "**/CHANGELOG.md"]
+}
