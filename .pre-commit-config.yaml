@@ -1,7 +1,9 @@
-# Local checks, mirroring CI (.github/workflows/checks.yml), at the same
-# versions. Set up once:
+# Local checks: CI's checks (.github/workflows/checks.yml) at the same versions,
+# plus file hygiene and commit messages. CI checks the pull request title instead
+# of commit messages, because the squash merge makes the title the commit on
+# main. Set up once:
 #   pipx install pre-commit                        # or: pip install pre-commit
-#   pre-commit install                             # lint, format, secrets and plugin checks on commit
+#   pre-commit install                             # hygiene, lint, format, secrets and plugin checks
 #   pre-commit install --hook-type commit-msg      # conventional commit messages
 # Run on everything:
 #   pre-commit run --all-files

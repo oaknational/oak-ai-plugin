@@ -52,8 +52,9 @@ claude/
 .github/
   pull_request_template.md
   workflows/
-    checks.yml                      # plugin validation, Markdown lint, Prettier, gitleaks, commitlint
-    link-check.yml                  # internal links on every pull request; external links weekly
+    checks.yml                      # plugin validation, Markdown lint, Prettier, gitleaks
+    link-check.yml                  # internal links and anchors
+    pr-title.yml                    # the pull request title, which becomes the commit on main
 scripts/
   check_against_plugin.py           # checks this README, the CHANGELOG and the marketplace entry against the plugin
 .pre-commit-config.yaml             # the same checks, run locally before each commit

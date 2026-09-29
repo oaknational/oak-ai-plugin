@@ -1,0 +1,35 @@
+name: PR title
+
+# Pull requests are squash-merged and the title becomes the commit on main, so
+# the title is checked with the same commitlint rules as a commit message. It
+# runs again when the title is edited and on every push, so the required check
+# always reports for the latest commit.
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  title:
+    name: PR title
+    # Dependabot's titles fail subject-case and its format isn't configurable.
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+      - name: Install pinned commitlint (lifecycle scripts disabled)
+        run: npm install --no-save --ignore-scripts --no-audit --no-fund @commitlint/cli@21.2.1 @commitlint/config-conventional@21.2.0
+      - name: Check the title
+        # The title goes through an environment variable, never into the script.
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: printf '%s\n' "$TITLE" | ./node_modules/.bin/commitlint --config .commitlintrc.json

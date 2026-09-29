@@ -1,9 +1,9 @@
 name: Checks
 
-# Plugin validation, Markdown lint, formatting, secret scanning and commit
-# messages. The plugin under claude/ is a copy from
-# oak-open-curriculum-ecosystem, so the lint and format settings match that
-# repository's: a finding in a copied file is fixed there, not here.
+# Plugin validation, Markdown lint, formatting and secret scanning. The plugin
+# under claude/ is a copy from oak-open-curriculum-ecosystem, so the lint and
+# format settings match that repository's: a finding in a copied file is fixed
+# there, not here. The pull request title is checked in pr-title.yml.
 
 on:
   push:
@@ -76,21 +76,3 @@ jobs:
           echo "${SHA256}  gitleaks.tar.gz" | sha256sum -c -
           tar -xzf gitleaks.tar.gz gitleaks
           ./gitleaks git --redact --no-banner -v .
-
-  commitlint:
-    name: Conventional commits
-    # Dependabot's subjects fail subject-case and its format isn't configurable.
-    if: github.event_name == 'pull_request' && github.event.pull_request.user.login != 'dependabot[bot]'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-      pull-requests: read # reads the PR's commit list
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@b948419dd99f3fd78a6548d48f94e3df7f6bf3ed # v6.2.1
-        with:
-          configFile: .commitlintrc.json

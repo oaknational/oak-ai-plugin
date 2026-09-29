@@ -23,5 +23,5 @@ Fixes MCP-
 - [ ] The plugin version in `plugin.json` has a matching entry at the top of `CHANGELOG.md`, dated the day this merges
 - [ ] `claude plugin validate --strict` passes for the plugin and the marketplace
 - [ ] The README's skills and commands tables still match what ships
-- [ ] Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
+- [ ] The title is a [Conventional Commit](https://www.conventionalcommits.org/) with the ticket at the end
 - [ ] Licences respected: Oak brand per the [brand guidelines](https://support.thenational.academy/using-the-oak-brand); Oak curriculum data attributed under OGL v3.0
