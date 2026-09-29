@@ -31,6 +31,32 @@ jobs:
         run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict .
       - name: Validate the Claude plugin
         run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/oak-open-curriculum
+      - name: Check the README against the plugin
+        # The README restates facts the plugin holds: the skills that ship, the
+        # workflows' commands and the MCP config. Recompute each from the plugin.
+        run: |
+          python3 - <<'EOF'
+          import json, os, re, sys
+          readme = open("README.md", encoding="utf-8").read()
+          plugin = "claude/oak-open-curriculum"
+          skills = set(os.listdir(f"{plugin}/skills"))
+          workflows = set(os.listdir(f"{plugin}/workflows"))
+          table = readme.split("## The skills", 1)[1].split("###", 1)[0]
+          listed = set(re.findall(r"^\|\s*`([^`]+)`\s*\|", table, re.M))
+          commands = set(re.findall(r"^\|\s*`/([a-z-]+)", readme, re.M))
+          snippet = json.loads(re.search(r"```json\n(.*?)```", readme, re.S).group(1))
+          mcp = json.load(open(f"{plugin}/.mcp.json", encoding="utf-8"))
+          problems = []
+          if listed != skills | workflows:
+              problems.append(f"skills table lists {sorted(listed)}, plugin ships {sorted(skills | workflows)}")
+          if commands != workflows:
+              problems.append(f"commands table lists {sorted(commands)}, plugin ships {sorted(workflows)}")
+          if snippet != mcp:
+              problems.append("MCP config snippet differs from the plugin's .mcp.json")
+          for p in problems:
+              print(f"::error file=README.md::{p}")
+          sys.exit(1 if problems else 0)
+          EOF
 
   lint-and-format:
     name: Markdown lint + Prettier
