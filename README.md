@@ -1,4 +1,4 @@
-# Oak AI plugin
+# Oak AI plugins
 
 [![Checks](https://github.com/oaknational/oak-ai-plugins/actions/workflows/checks.yml/badge.svg)](https://github.com/oaknational/oak-ai-plugins/actions/workflows/checks.yml)
 ![Status: experimental](https://img.shields.io/badge/status-experimental-orange)
