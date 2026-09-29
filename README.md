@@ -48,6 +48,7 @@ claude/
     README.md                     #   the directory listing text
 .github/workflows/
   checks.yml                      # plugin validation, Markdown lint, Prettier, gitleaks, commitlint
+  link-check.yml                  # internal links on every pull request; external links weekly
 ```
 
 The `evals/` folders are left out of the copy. They are Oak's authoring tests and stay in the ecosystem repository.

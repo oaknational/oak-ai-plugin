@@ -1,0 +1,62 @@
+name: Link check
+
+# Pull requests and pushes check every Markdown link that points inside the
+# repository, anchors included: deterministic, so it can be a required check.
+# A weekly run also checks external links, so pages that move or disappear
+# are caught without blocking unrelated pull requests.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    # 07:00 UTC every Monday.
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Link check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Internal links and anchors
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          args: >-
+            --offline
+            --no-progress
+            --include-fragments
+            --exclude-path CHANGELOG.md
+            './**/*.md'
+          fail: true
+
+      - name: All links, external included
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          token: ${{ github.token }}
+          # The MCP server address answers MCP clients only, and returns 406 to
+          # a plain page request. This repository's own URLs need sign-in while
+          # it is private.
+          args: >-
+            --no-progress
+            --include-fragments
+            --exclude-path CHANGELOG.md
+            --exclude '^https://mcp\.thenational\.academy/mcp$'
+            --exclude '^https://github\.com/oaknational/oak-ai-plugins'
+            --accept 200,206,403,429
+            './**/*.md'
+          output: lychee-report.md
+          fail: true
+
+      - name: Publish the report
+        if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        run: cat lychee-report.md >> "$GITHUB_STEP_SUMMARY" || true
