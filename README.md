@@ -1,13 +1,8 @@
 # Oak AI plugin
 
-The published copy of Oak National Academy's Open Curriculum plugin for AI assistants, one folder per provider. It is built from the [`plugins/`](https://github.com/oaknational/oak-open-curriculum-ecosystem/tree/main/plugins) folder of [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem), and each release there updates it here. Please raise issues and changes in that repository, not this one.
+The published copy of Oak National Academy's Open Curriculum plugin for AI assistants, one folder per provider. It is copied from the [`plugins/`](https://github.com/oaknational/oak-open-curriculum-ecosystem/tree/main/plugins) folder of [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem) and updated from there. Please raise issues and changes in that repository, not this one.
 
-| Folder                                                       | For               |
-| ------------------------------------------------------------ | ----------------- |
-| [`claude/oak-open-curriculum`](claude/oak-open-curriculum)   | Claude            |
-| [`chatgpt/oak-open-curriculum`](chatgpt/oak-open-curriculum) | ChatGPT and Codex |
-
-Each folder's README says what the plugin does and what it connects to.
+The Claude plugin is in [`claude/oak-open-curriculum`](claude/oak-open-curriculum). Its README says what the plugin does and what it connects to.
 
 ## Install
 
@@ -16,12 +11,6 @@ In Claude Code:
 ```bash
 claude plugin marketplace add oaknational/oak-ai-plugin
 claude plugin install oak-open-curriculum@oak-ai-plugin
-```
-
-In Codex, add the marketplace, then install Oak National Academy from the Plugins list:
-
-```bash
-codex plugin marketplace add oaknational/oak-ai-plugin
 ```
 
 ## Licence
