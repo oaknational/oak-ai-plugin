@@ -31,9 +31,10 @@ jobs:
         run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict .
       - name: Validate the Claude plugin
         run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/oak-open-curriculum
-      - name: Check the README against the plugin
+      - name: Check the README and CHANGELOG against the plugin
         # The README restates facts the plugin holds: the skills that ship, the
-        # workflows' commands and the MCP config. Recompute each from the plugin.
+        # workflows' commands and the MCP config. The CHANGELOG's latest entry
+        # must be the version the plugin carries. Recompute each from the plugin.
         run: |
           python3 - <<'EOF'
           import json, os, re, sys
@@ -52,9 +53,15 @@ jobs:
           if commands != workflows:
               problems.append(f"commands table lists {sorted(commands)}, plugin ships {sorted(workflows)}")
           if snippet != mcp:
-              problems.append("MCP config snippet differs from the plugin's .mcp.json")
+              problems.append("README: MCP config snippet differs from the plugin's .mcp.json")
+          version = json.load(open(f"{plugin}/.claude-plugin/plugin.json", encoding="utf-8"))["version"]
+          changelog = open("CHANGELOG.md", encoding="utf-8").read()
+          latest = re.search(r"^## (\S+)", changelog, re.M)
+          if not latest or latest.group(1) != version:
+              found = latest.group(1) if latest else "none"
+              problems.append(f"CHANGELOG: latest entry is {found}, plugin.json says {version}")
           for p in problems:
-              print(f"::error file=README.md::{p}")
+              print(f"::error::{p}")
           sys.exit(1 if problems else 0)
           EOF
 

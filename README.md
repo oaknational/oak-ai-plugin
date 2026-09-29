@@ -46,9 +46,12 @@ claude/
     workflows/                    #   the two slash-command workflows
     assets/icon.png               #   the listing icon
     README.md                     #   the directory listing text
-.github/workflows/
-  checks.yml                      # plugin validation, Markdown lint, Prettier, gitleaks, commitlint
-  link-check.yml                  # internal links on every pull request; external links weekly
+.github/
+  pull_request_template.md
+  workflows/
+    checks.yml                    # plugin validation, Markdown lint, Prettier, gitleaks, commitlint
+    link-check.yml                # internal links on every pull request; external links weekly
+CHANGELOG.md                      # what was published here, and when
 ```
 
 The `evals/` folders are left out of the copy. They are Oak's authoring tests and stay in the ecosystem repository.
