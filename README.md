@@ -1,6 +1,6 @@
 # Oak AI plugin
 
-[![Checks](https://github.com/oaknational/oak-ai-plugin/actions/workflows/checks.yml/badge.svg)](https://github.com/oaknational/oak-ai-plugin/actions/workflows/checks.yml)
+[![Checks](https://github.com/oaknational/oak-ai-plugins/actions/workflows/checks.yml/badge.svg)](https://github.com/oaknational/oak-ai-plugins/actions/workflows/checks.yml)
 ![Status: experimental](https://img.shields.io/badge/status-experimental-orange)
 [![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-blue)](https://agentskills.io/specification)
 [![Licence](https://img.shields.io/badge/licence-MIT%20%2B%20Oak%20brand-informational)](LICENCE)
@@ -66,8 +66,8 @@ Three skills need the **Oak Curriculum MCP** connected. See [The Oak Curriculum 
 
 ```text
 # In Claude Code:
-/plugin marketplace add oaknational/oak-ai-plugin
-/plugin install oak-open-curriculum@oak-ai-plugin
+/plugin marketplace add oaknational/oak-ai-plugins
+/plugin install oak-open-curriculum@oak-ai-plugins
 ```
 
 Once installed you get:
