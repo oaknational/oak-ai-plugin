@@ -4,6 +4,8 @@ The published copy of Oak National Academy's Open Curriculum plugin for AI assis
 
 The Claude plugin is in [`claude/oak-open-curriculum`](claude/oak-open-curriculum). Its README says what the plugin does and what it connects to.
 
+The `evals/` folders are left out of the copy. They are Oak's authoring tests and stay in the ecosystem repository.
+
 ## Install
 
 In Claude Code:
