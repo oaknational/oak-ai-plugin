@@ -1,0 +1,14 @@
+{
+  "name": "oak-ai-plugin",
+  "owner": {
+    "name": "Oak National Academy",
+    "url": "https://www.thenational.academy"
+  },
+  "description": "Oak National Academy's Open Curriculum plugin for Claude.",
+  "plugins": [
+    {
+      "name": "oak-open-curriculum",
+      "source": "./claude/oak-open-curriculum"
+    }
+  ]
+}
