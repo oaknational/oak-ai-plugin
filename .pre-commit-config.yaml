@@ -1,0 +1,63 @@
+# Local checks, mirroring CI (.github/workflows/checks.yml), at the same
+# versions. Set up once:
+#   pipx install pre-commit                        # or: pip install pre-commit
+#   pre-commit install                             # lint, format, secrets and plugin checks on commit
+#   pre-commit install --hook-type commit-msg      # conventional commit messages
+# Run on everything:
+#   pre-commit run --all-files
+# The plugin validation hooks need Claude Code installed (the `claude` command).
+default_stages: [pre-commit]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-json
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.23.2
+    hooks:
+      - id: markdownlint-cli2
+
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: v3.9.6
+    hooks:
+      - id: prettier
+        types_or: [markdown, json, yaml]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
+  # This repository's own checks (the same ones CI runs).
+  - repo: local
+    hooks:
+      - id: validate-marketplace
+        name: Validate the Claude marketplace
+        entry: claude plugin validate --strict .
+        language: system
+        pass_filenames: false
+        files: ^(\.claude-plugin/|claude/)
+      - id: validate-claude-plugin
+        name: Validate the Claude plugin
+        entry: claude plugin validate --strict claude/plugin/oak-open-curriculum
+        language: system
+        pass_filenames: false
+        files: ^claude/
+      - id: check-readme-and-changelog
+        name: Check the README and CHANGELOG against the plugin
+        entry: python3 scripts/check_readme_and_changelog.py
+        language: system
+        pass_filenames: false
+        files: ^(README\.md|CHANGELOG\.md|claude/|scripts/)

@@ -1,0 +1,12 @@
+# Operating system and editor files. A .DS_Store inside a plugin folder
+# blocks the Claude plugin directory's validation.
+.DS_Store
+Thumbs.db
+desktop.ini
+__MACOSX/
+.idea/
+.vscode/
+
+# Local tool installs
+node_modules/
+__pycache__/

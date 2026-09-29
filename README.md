@@ -34,7 +34,7 @@ Oak's approach to curriculum lives in its curriculum principles, in the units an
 
 ## Repository layout
 
-Each package lives at `<host>/<kind>/<package>/`, so another host, or another kind of package for the same host, gets a folder of its own. The only files at the root are the ones a host requires there, such as its marketplace file.
+Each package lives at `<host>/<kind>/<package>/`, so another host, or another kind of package for the same host, gets a folder of its own. Apart from the repository's own files, the only things at the root are files a host requires there, such as its marketplace file.
 
 ```text
 .claude-plugin/
@@ -54,6 +54,9 @@ claude/
   workflows/
     checks.yml                      # plugin validation, Markdown lint, Prettier, gitleaks, commitlint
     link-check.yml                  # internal links on every pull request; external links weekly
+scripts/
+  check_readme_and_changelog.py     # checks this README and the CHANGELOG against the plugin
+.pre-commit-config.yaml             # the same checks, run locally before each commit
 CHANGELOG.md                        # what was published here, and when
 ```
 
@@ -114,6 +117,14 @@ The MCP sits on top of the [Oak Curriculum API](https://open-api.thenational.aca
 This repository publishes the plugin; it isn't where the plugin is built. The plugin is built in [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem), under `plugins/oak-open-curriculum`, next to the Oak Curriculum MCP server it connects to. That repository is too large for Claude's plugin directory to read, so each release of the plugin is copied here.
 
 Raise issues and pull requests in the ecosystem repository. Pull requests here only carry those copies and changes to this repository's own files.
+
+To run CI's checks locally before each commit, install [pre-commit](https://pre-commit.com) and the hooks once. The plugin validation hooks also need Claude Code installed.
+
+```bash
+pipx install pre-commit
+pre-commit install
+pre-commit install --hook-type commit-msg
+```
 
 ## Licence
 

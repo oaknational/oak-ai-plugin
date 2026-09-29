@@ -32,38 +32,7 @@ jobs:
       - name: Validate the Claude plugin
         run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/plugin/oak-open-curriculum
       - name: Check the README and CHANGELOG against the plugin
-        # The README restates facts the plugin holds: the skills that ship, the
-        # workflows' commands and the MCP config. The CHANGELOG's latest entry
-        # must be the version the plugin carries. Recompute each from the plugin.
-        run: |
-          python3 - <<'EOF'
-          import json, os, re, sys
-          readme = open("README.md", encoding="utf-8").read()
-          plugin = "claude/plugin/oak-open-curriculum"
-          skills = set(os.listdir(f"{plugin}/skills"))
-          workflows = set(os.listdir(f"{plugin}/workflows"))
-          table = readme.split("## The skills", 1)[1].split("###", 1)[0]
-          listed = set(re.findall(r"^\|\s*`([^`]+)`\s*\|", table, re.M))
-          commands = set(re.findall(r"^\|\s*`/([a-z-]+)", readme, re.M))
-          snippet = json.loads(re.search(r"```json\n(.*?)```", readme, re.S).group(1))
-          mcp = json.load(open(f"{plugin}/.mcp.json", encoding="utf-8"))
-          problems = []
-          if listed != skills | workflows:
-              problems.append(f"skills table lists {sorted(listed)}, plugin ships {sorted(skills | workflows)}")
-          if commands != workflows:
-              problems.append(f"commands table lists {sorted(commands)}, plugin ships {sorted(workflows)}")
-          if snippet != mcp:
-              problems.append("README: MCP config snippet differs from the plugin's .mcp.json")
-          version = json.load(open(f"{plugin}/.claude-plugin/plugin.json", encoding="utf-8"))["version"]
-          changelog = open("CHANGELOG.md", encoding="utf-8").read()
-          latest = re.search(r"^## (\S+)", changelog, re.M)
-          if not latest or latest.group(1) != version:
-              found = latest.group(1) if latest else "none"
-              problems.append(f"CHANGELOG: latest entry is {found}, plugin.json says {version}")
-          for p in problems:
-              print(f"::error::{p}")
-          sys.exit(1 if problems else 0)
-          EOF
+        run: python3 scripts/check_readme_and_changelog.py
 
   lint-and-format:
     name: Markdown lint + Prettier
