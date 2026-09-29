@@ -55,7 +55,7 @@ claude/
     checks.yml                      # plugin validation, Markdown lint, Prettier, gitleaks, commitlint
     link-check.yml                  # internal links on every pull request; external links weekly
 scripts/
-  check_readme_and_changelog.py     # checks this README and the CHANGELOG against the plugin
+  check_against_plugin.py           # checks this README, the CHANGELOG and the marketplace entry against the plugin
 .pre-commit-config.yaml             # the same checks, run locally before each commit
 CHANGELOG.md                        # what was published here, and when
 ```
@@ -116,7 +116,7 @@ The MCP sits on top of the [Oak Curriculum API](https://open-api.thenational.aca
 
 This repository publishes the plugin; it isn't where the plugin is built. The plugin is built in [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem), under `plugins/oak-open-curriculum`, next to the Oak Curriculum MCP server it connects to. That repository is too large for Claude's plugin directory to read, so each release of the plugin is copied here.
 
-Raise issues and pull requests in the ecosystem repository. Pull requests here only carry those copies and changes to this repository's own files.
+Raise issues and pull requests in the ecosystem repository. Pull requests here only carry those copies and changes to this repository's own files. They are squash-merged, so each title is written as a Conventional Commit with the ticket at the end, and becomes the commit on `main`.
 
 To run CI's checks locally before each commit, install [pre-commit](https://pre-commit.com) and the hooks once. The plugin validation hooks also need Claude Code installed.
 

@@ -55,9 +55,9 @@ repos:
         language: system
         pass_filenames: false
         files: ^claude/
-      - id: check-readme-and-changelog
-        name: Check the README and CHANGELOG against the plugin
-        entry: python3 scripts/check_readme_and_changelog.py
+      - id: check-against-plugin
+        name: Check the README, CHANGELOG and marketplace entry against the plugin
+        entry: python3 scripts/check_against_plugin.py
         language: system
         pass_filenames: false
-        files: ^(README\.md|CHANGELOG\.md|claude/|scripts/)
+        files: ^(README\.md|CHANGELOG\.md|\.claude-plugin/|claude/|scripts/)

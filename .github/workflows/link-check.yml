@@ -3,7 +3,8 @@ name: Link check
 # Pull requests and pushes check every Markdown link that points inside the
 # repository, anchors included: deterministic, so it can be a required check.
 # A weekly run also checks external links, so pages that move or disappear
-# are caught without blocking unrelated pull requests.
+# are caught without blocking unrelated pull requests. The plugin's own
+# changelog is skipped: it is copied as-is from oak-open-curriculum-ecosystem.
 
 on:
   pull_request:
@@ -21,6 +22,7 @@ jobs:
   links:
     name: Link check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -34,7 +36,7 @@ jobs:
             --offline
             --no-progress
             --include-fragments
-            --exclude-path CHANGELOG.md
+            --exclude-path 'claude/.*/CHANGELOG\.md'
             './**/*.md'
           fail: true
 
@@ -49,7 +51,7 @@ jobs:
           args: >-
             --no-progress
             --include-fragments
-            --exclude-path CHANGELOG.md
+            --exclude-path 'claude/.*/CHANGELOG\.md'
             --exclude '^https://mcp\.thenational\.academy/mcp$'
             --exclude '^https://github\.com/oaknational/oak-ai-plugins'
             --accept 200,206,403,429

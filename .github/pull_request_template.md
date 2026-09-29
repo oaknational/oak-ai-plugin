@@ -1,3 +1,7 @@
+<!-- Title: a Conventional Commit with the ticket at the end, for example
+"chore: publish plugin 0.1.4 from oak-open-curriculum-ecosystem (MCP-123)".
+Pull requests are squash-merged, so the title becomes the commit on main. -->
+
 ## Description
 
 <!-- What this changes, and why. For a plugin update, name the plugin version and the
@@ -16,7 +20,7 @@ Fixes MCP-
 ## Checklist
 
 - [ ] Plugin changes were made in oak-open-curriculum-ecosystem first; each package under `<host>/<kind>/<package>/` is an unedited copy of a named commit, without the `evals/` folders
-- [ ] The plugin version in `plugin.json` has a matching entry at the top of `CHANGELOG.md`
+- [ ] The plugin version in `plugin.json` has a matching entry at the top of `CHANGELOG.md`, dated the day this merges
 - [ ] `claude plugin validate --strict` passes for the plugin and the marketplace
 - [ ] The README's skills and commands tables still match what ships
 - [ ] Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)

@@ -17,6 +17,7 @@
     "ol-prefix": false
   },
   "globs": ["**/*.md"],
-  // The ecosystem does not lint changelogs.
-  "ignores": ["node_modules/**", "**/CHANGELOG.md"]
+  // The plugin's own changelog is copied as-is, and the ecosystem doesn't lint
+  // changelogs. This repository's CHANGELOG.md is written here, so it is linted.
+  "ignores": ["node_modules/**", "claude/**/CHANGELOG.md"]
 }

@@ -1,9 +1,10 @@
-"""Check the README and CHANGELOG against the Claude plugin they describe.
+"""Check the README, CHANGELOG and marketplace entry against the Claude plugin.
 
 The README restates facts the plugin holds: the skills that ship, the
 workflows' commands and the MCP config. The CHANGELOG's latest entry must be
-the version the plugin carries. Each is recomputed from the plugin, so the
-two files can't drift from it. Run by CI and by the pre-commit hook.
+the version the plugin carries. The marketplace entry repeats the plugin's
+display name, description and keywords. Each is recomputed from the plugin,
+so none of them can drift from it. Run by CI and by the pre-commit hook.
 """
 
 import json
@@ -36,12 +37,22 @@ def main() -> int:
     if snippet != mcp:
         problems.append("README: MCP config snippet differs from the plugin's .mcp.json")
 
-    version = json.load(open(f"{PLUGIN}/.claude-plugin/plugin.json", encoding="utf-8"))["version"]
+    manifest = json.load(open(f"{PLUGIN}/.claude-plugin/plugin.json", encoding="utf-8"))
+    version = manifest["version"]
     changelog = open("CHANGELOG.md", encoding="utf-8").read()
     latest = re.search(r"^## (\S+)", changelog, re.M)
     if not latest or latest.group(1) != version:
         found = latest.group(1) if latest else "none"
         problems.append(f"CHANGELOG: latest entry is {found}, plugin.json says {version}")
+
+    marketplace = json.load(open(".claude-plugin/marketplace.json", encoding="utf-8"))
+    entries = [e for e in marketplace["plugins"] if e["source"] == f"./{PLUGIN}"]
+    if len(entries) != 1:
+        problems.append(f"marketplace: expected one entry with source ./{PLUGIN}, found {len(entries)}")
+    else:
+        for field in ("name", "displayName", "description", "keywords"):
+            if entries[0].get(field) != manifest.get(field):
+                problems.append(f"marketplace: {field} differs from the plugin's plugin.json")
 
     prefix = "::error::" if os.environ.get("GITHUB_ACTIONS") else "error: "
     for problem in problems:
