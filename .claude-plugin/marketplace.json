@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "oak-open-curriculum",
-      "source": "./claude/oak-open-curriculum"
+      "source": "./claude/plugin/oak-open-curriculum"
     }
   ]
 }

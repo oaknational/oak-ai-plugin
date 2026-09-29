@@ -30,7 +30,7 @@ jobs:
       - name: Validate the marketplace
         run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict .
       - name: Validate the Claude plugin
-        run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/oak-open-curriculum
+        run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/plugin/oak-open-curriculum
       - name: Check the README and CHANGELOG against the plugin
         # The README restates facts the plugin holds: the skills that ship, the
         # workflows' commands and the MCP config. The CHANGELOG's latest entry
@@ -39,7 +39,7 @@ jobs:
           python3 - <<'EOF'
           import json, os, re, sys
           readme = open("README.md", encoding="utf-8").read()
-          plugin = "claude/oak-open-curriculum"
+          plugin = "claude/plugin/oak-open-curriculum"
           skills = set(os.listdir(f"{plugin}/skills"))
           workflows = set(os.listdir(f"{plugin}/workflows"))
           table = readme.split("## The skills", 1)[1].split("###", 1)[0]

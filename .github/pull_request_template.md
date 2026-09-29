@@ -15,7 +15,7 @@ Fixes MCP-
 
 ## Checklist
 
-- [ ] Plugin changes were made in oak-open-curriculum-ecosystem first; `claude/` is an unedited copy of a named commit, without the `evals/` folders
+- [ ] Plugin changes were made in oak-open-curriculum-ecosystem first; each package under `<host>/<kind>/<package>/` is an unedited copy of a named commit, without the `evals/` folders
 - [ ] The plugin version in `plugin.json` has a matching entry at the top of `CHANGELOG.md`
 - [ ] `claude plugin validate --strict` passes for the plugin and the marketplace
 - [ ] The README's skills and commands tables still match what ships

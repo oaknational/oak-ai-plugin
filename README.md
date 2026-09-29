@@ -5,7 +5,7 @@
 [![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-blue)](https://agentskills.io/specification)
 [![Licence](https://img.shields.io/badge/licence-MIT%20%2B%20Oak%20brand-informational)](LICENCE)
 
-Oak National Academy's plugin for AI assistants: skills and workflows that ground an assistant in Oak's live curriculum data, Oak's curriculum principles and its accessibility guidance. The plugin is published here in a folder per provider. Only the Claude plugin is published for now.
+Oak National Academy's plugin for AI assistants: skills and workflows that ground an assistant in Oak's live curriculum data, Oak's curriculum principles and its accessibility guidance. Each host's package is published here in its own folder. Only the Claude plugin is published for now.
 
 Each skill follows the [Agent Skills specification](https://agentskills.io/specification): a `SKILL.md` with YAML frontmatter, plus any supporting `references/` and `assets/`. The Claude plugin packages the skills with two slash-command workflows, the subagents behind them, and a connection to the Oak Curriculum MCP.
 
@@ -34,24 +34,27 @@ Oak's approach to curriculum lives in its curriculum principles, in the units an
 
 ## Repository layout
 
+Each package lives at `<host>/<kind>/<package>/`, so another host, or another kind of package for the same host, gets a folder of its own. The only files at the root are the ones a host requires there, such as its marketplace file.
+
 ```text
 .claude-plugin/
-  marketplace.json                # Claude Code marketplace; points at claude/oak-open-curriculum
+  marketplace.json                  # Claude Code marketplace; points at claude/plugin/oak-open-curriculum
 claude/
-  oak-open-curriculum/            # the Claude plugin, copied from the ecosystem repository
-    .claude-plugin/plugin.json    #   plugin manifest
-    .mcp.json                     #   the Oak Curriculum MCP, installed with the plugin
-    agents/                       #   the subagents the workflows hand work to
-    skills/                       #   the three skills
-    workflows/                    #   the two slash-command workflows
-    assets/icon.png               #   the listing icon
-    README.md                     #   the directory listing text
+  plugin/
+    oak-open-curriculum/            # the Claude plugin, copied from the ecosystem repository
+      .claude-plugin/plugin.json    #   plugin manifest
+      .mcp.json                     #   the Oak Curriculum MCP, installed with the plugin
+      agents/                       #   the subagents the workflows hand work to
+      skills/                       #   the three skills
+      workflows/                    #   the two slash-command workflows
+      assets/icon.png               #   the listing icon
+      README.md                     #   the directory listing text
 .github/
   pull_request_template.md
   workflows/
-    checks.yml                    # plugin validation, Markdown lint, Prettier, gitleaks, commitlint
-    link-check.yml                # internal links on every pull request; external links weekly
-CHANGELOG.md                      # what was published here, and when
+    checks.yml                      # plugin validation, Markdown lint, Prettier, gitleaks, commitlint
+    link-check.yml                  # internal links on every pull request; external links weekly
+CHANGELOG.md                        # what was published here, and when
 ```
 
 The `evals/` folders are left out of the copy. They are Oak's authoring tests and stay in the ecosystem repository.

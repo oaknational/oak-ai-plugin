@@ -1,6 +1,6 @@
 # Changelog
 
-Each version is the version of the Claude plugin this repository publishes, copied from [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem). This file records what was published here and when. What changed in the plugin itself is in [its own changelog](claude/oak-open-curriculum/CHANGELOG.md).
+Each version is the version of the Claude plugin this repository publishes, copied from [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem). This file records what was published here and when. What changed in the plugin itself is in [its own changelog](claude/plugin/oak-open-curriculum/CHANGELOG.md).
 
 ## 0.1.3 — 2026-09-29
 
