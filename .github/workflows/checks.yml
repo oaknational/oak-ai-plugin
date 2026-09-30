@@ -1,9 +1,11 @@
 name: Checks
 
-# Plugin validation, Markdown lint, formatting and secret scanning. The plugin
-# under claude/ is a copy from oak-open-curriculum-ecosystem, so the lint and
-# format settings match that repository's: a finding in a copied file is fixed
-# there, not here. The pull request title is checked in pr-title.yml.
+# Plugin validation, sync fidelity, Markdown lint, formatting and secret
+# scanning. The plugin under claude/ is a copy from
+# oak-open-curriculum-ecosystem, so the lint and format settings match that
+# repository's: a finding in a copied file is fixed there, not here — and the
+# Sync fidelity job proves each copy matches the source PROVENANCE.json
+# records. The pull request title is checked in pr-title.yml.
 
 on:
   push:
@@ -34,6 +36,21 @@ jobs:
         run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/plugin/oak-open-curriculum
       - name: Check the README, CHANGELOG and marketplace entry against the plugin
         run: python3 scripts/check_against_plugin.py
+
+  fidelity:
+    name: Sync fidelity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check each published plugin against its recorded source
+        # Clones each source in PROVENANCE.json at its recorded commit and
+        # diffs it against the published copy: the copies cannot be hand-
+        # edited here, and PROVENANCE.json cannot claim a source it doesn't
+        # match. Runs on every pull request so the check always reports.
+        run: python3 scripts/check_provenance.py
 
   lint-and-format:
     name: Markdown lint + Prettier

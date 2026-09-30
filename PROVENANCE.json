@@ -1,0 +1,20 @@
+{
+  "$comment": "Machine-readable provenance for every plugin copy this repository publishes. CI (the Sync fidelity check) clones each source at the recorded commit and fails if the copy differs beyond the recorded divergences. Updated by scripts/sync_plugin.py; checked by scripts/check_provenance.py.",
+  "publishes": [
+    {
+      "path": "claude/plugin/oak-open-curriculum",
+      "source_repo": "https://github.com/oaknational/oak-open-curriculum-ecosystem",
+      "source_path": "plugins/oak-open-curriculum",
+      "commit": "9772f33858fbed03b7c1835ed9c0a008af4fbe00",
+      "release": "v1.185.3",
+      "plugin_version": "0.1.3",
+      "excluded": ["evals/"],
+      "known_divergences": [
+        {
+          "file": "CHANGELOG.md",
+          "reason": "The 0.1.3 entry here dates the release (v1.185.3) where the source still says unreleased; the same fix is waiting in the ecosystem repository. Remove once it lands and the next sync picks it up."
+        }
+      ]
+    }
+  ]
+}

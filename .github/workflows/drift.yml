@@ -1,0 +1,27 @@
+name: Publish drift
+
+# Weekly alarm: fails when the ecosystem's plugin version is ahead of the
+# one this repository publishes, so the repository's watchers hear about a
+# release that hasn't been synced. Issues are off here by design — a red
+# scheduled run is the notification. Catch up by running the "Sync plugin
+# from the ecosystem" workflow.
+
+on:
+  schedule:
+    - cron: '30 7 * * 1' # Mondays 07:30 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    name: Published plugin version vs the ecosystem
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Compare each published version with its source's default branch
+        run: python3 scripts/check_drift.py
