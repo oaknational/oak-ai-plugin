@@ -52,11 +52,17 @@ claude/
 .github/
   pull_request_template.md
   workflows/
-    checks.yml                      # plugin validation, Markdown lint, Prettier, gitleaks
+    checks.yml                      # plugin validation, sync fidelity, Markdown lint, Prettier, gitleaks
     link-check.yml                  # internal links and anchors
     pr-title.yml                    # the pull request title, which becomes the commit on main
+    sync-plugin.yml                 # copies a plugin version from the ecosystem and opens the publish PR
+    drift.yml                       # weekly: fails when the ecosystem is ahead of what's published
 scripts/
   check_against_plugin.py           # checks this README, the CHANGELOG and the marketplace entry against the plugin
+  check_provenance.py               # checks each copy against the source commit in PROVENANCE.json
+  sync_plugin.py                    # does the copy for sync-plugin.yml
+  check_drift.py                    # the weekly version comparison for drift.yml
+PROVENANCE.json                     # where each published copy came from
 .pre-commit-config.yaml             # the same checks, run locally before each commit
 docs/
   public-release.md                 # how this repository was prepared for public release

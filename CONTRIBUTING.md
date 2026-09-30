@@ -52,8 +52,12 @@ expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 1. Change a plugin in oak-open-curriculum-ecosystem, raise its version and add a
    changelog entry there.
-2. Once that is released, copy the plugin here on a branch from `main`, without
-   the `evals/` folders, and add an entry to [CHANGELOG.md](CHANGELOG.md).
+2. Once that is released, copy the plugin here with the **Sync plugin from the
+   ecosystem** workflow, giving it the release's ref. It copies the plugin
+   without the `evals/` folders, records the source in
+   [PROVENANCE.json](PROVENANCE.json) and adds an entry to
+   [CHANGELOG.md](CHANGELOG.md). Until the workflow can open pull requests
+   itself, open one from the branch it pushes.
 3. Open a pull request against `main`. Its title is a
    [Conventional Commit](https://www.conventionalcommits.org/) with the ticket at
    the end when there is one, because pull requests are squash-merged and the title becomes the
