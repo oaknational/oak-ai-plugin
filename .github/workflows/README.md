@@ -14,7 +14,8 @@ before it runs.
 | [`sync-plugin.yml`](sync-plugin.yml) | Manually, given an ecosystem ref and release        | Copies the plugin from oak-open-curriculum-ecosystem at that ref, updates `PROVENANCE.json` and `CHANGELOG.md`, and opens the publish pull request. It can't open pull requests yet: Actions isn't allowed to here, and the Oak Semantic Release Bot's token is still to be set up.                        |
 | [`drift.yml`](drift.yml)             | Mondays 07:30 UTC; manually                         | Fails when the ecosystem's plugin version is ahead of the one published here, so a release that hasn't been synced is noticed.                                                                                                                                                                             |
 
-GitHub also runs **CodeQL** (default setup, not a workflow file here) on the
+**SonarCloud** analyses every pull request (automatic analysis, no workflow
+file). GitHub also runs **CodeQL** (default setup, not a workflow file here) on the
 workflow files and the scripts, and **Dependabot** checks the pinned
 actions weekly.
 
@@ -34,6 +35,7 @@ stays blocked until the ruleset is updated:
 - `Link check`
 - `PR title`
 - `Sync fidelity`
+- `SonarCloud Code Analysis`
 
 The ruleset also requires CodeQL results, an approving review from a code owner,
 and every review thread resolved.
