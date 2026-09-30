@@ -40,11 +40,15 @@ gitleaks git --log-opts="--all" --redact .
 
 **30 September 2026** — 18 commits scanned, **no findings**.
 
-No environment, OS or key files are tracked. Verified with:
+No environment, OS, credential or key files are tracked. **30 September 2026** —
+no matches for:
 
 ```sh
-git ls-files | grep -iE '\.env|\.DS_Store|\.pem$|id_rsa'
+git ls-files | grep -iE '(^|/)\.env($|\.)|\.DS_Store$|Thumbs\.db$|desktop\.ini$|__MACOSX/|\.pem$|\.key$|\.p12$|\.pfx$|\.jks$|\.keystore$|(^|/)id_(rsa|dsa|ecdsa|ed25519)(\.pub)?$|\.npmrc$|\.netrc$'
 ```
+
+This checks file names only. The secret scan above and CI's gitleaks job check
+file contents.
 
 CI also runs gitleaks over the full history on every pull request and push to
 `main`, and GitHub secret scanning with push protection is on.

@@ -24,8 +24,9 @@ pre-commit hooks in [`.pre-commit-config.yaml`](../../.pre-commit-config.yaml).
 ## Required status checks
 
 The branch ruleset on `main` requires these checks by name. **If you rename a
-job, update the ruleset in the same change** — a renamed job silently stops
-being required:
+job, update the ruleset in the same change.** Otherwise the ruleset keeps
+waiting for the old name, which never reports again, and every pull request
+stays blocked until the ruleset is updated:
 
 - `Plugin validation`
 - `Markdown lint + Prettier`
