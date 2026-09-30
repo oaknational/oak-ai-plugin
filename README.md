@@ -3,7 +3,7 @@
 [![Checks](https://github.com/oaknational/oak-ai-plugins/actions/workflows/checks.yml/badge.svg)](https://github.com/oaknational/oak-ai-plugins/actions/workflows/checks.yml)
 ![Status: experimental](https://img.shields.io/badge/status-experimental-orange)
 [![Agent Skills](https://img.shields.io/badge/format-Agent%20Skills-blue)](https://agentskills.io/specification)
-[![Licence](https://img.shields.io/badge/licence-MIT%20%2B%20Oak%20brand-informational)](LICENCE)
+[![Licence](https://img.shields.io/badge/licence-MIT%20%2B%20Oak%20brand-informational)](LICENSE)
 
 Oak National Academy's plugin for AI assistants: skills and workflows that ground an assistant in Oak's live curriculum data, Oak's curriculum principles and its accessibility guidance. Each host's package is published here in its own folder. Only the Claude plugin is published for now.
 
@@ -58,7 +58,11 @@ claude/
 scripts/
   check_against_plugin.py           # checks this README, the CHANGELOG and the marketplace entry against the plugin
 .pre-commit-config.yaml             # the same checks, run locally before each commit
+docs/
+  public-release.md                 # how this repository was prepared for public release
 CHANGELOG.md                        # what was published here, and when
+CONTRIBUTING.md, SUPPORT.md, SECURITY.md, CODE_OF_CONDUCT.md
+LICENSE, LICENCE-DATA.md, BRANDING.md, ATTRIBUTION.md
 ```
 
 The `evals/` folders are left out of the copy. They are Oak's authoring tests and stay in the ecosystem repository.
@@ -117,7 +121,12 @@ The MCP sits on top of the [Oak Curriculum API](https://open-api.thenational.aca
 
 This repository publishes the plugin; it isn't where the plugin is built. The plugin is built in [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem), under `plugins/oak-open-curriculum`, next to the Oak Curriculum MCP server it connects to. That repository is too large for Claude's plugin directory to read, so each release of the plugin is copied here.
 
-Raise issues and pull requests in the ecosystem repository. Pull requests here only carry those copies and changes to this repository's own files. They are squash-merged, so each title is written as a Conventional Commit with the ticket at the end, and becomes the commit on `main`.
+- **Feedback, bugs and curriculum corrections:** use the [AI plugin feedback form](https://survey.hsforms.com/2vy6BnIvzTASqx1DbH8CaJAbvumd). GitHub issues are turned off. See [SUPPORT.md](SUPPORT.md) for scope and response times.
+- **Pull requests** are only accepted from Oak engineers. See [CONTRIBUTING.md](CONTRIBUTING.md). Pull requests here only carry copies from the ecosystem repository and changes to this repository's own files. They are squash-merged, so each title is written as a Conventional Commit with the ticket at the end, and becomes the commit on `main`.
+- **Security vulnerabilities:** see [SECURITY.md](SECURITY.md), never the feedback form.
+- Everyone is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+How the repository was prepared for public release, and why, is recorded in [docs/public-release.md](docs/public-release.md).
 
 To run CI's checks locally before each commit, install [pre-commit](https://pre-commit.com) and the hooks once. The plugin validation hooks also need Claude Code installed.
 
@@ -131,9 +140,9 @@ pre-commit install --hook-type commit-msg
 
 Different parts of this repository are licensed differently.
 
-- **Code and repository structure** are released under the [MIT Licence](LICENCE).
-- **Oak trademarks, logos and brand assets**, including the plugin's icon, are not MIT-licensed. See [BRANDING.md](https://github.com/oaknational/oak-open-curriculum-ecosystem/blob/main/BRANDING.md) and Oak's [brand guidelines](https://support.thenational.academy/using-the-oak-brand).
+- **Code and repository structure** are released under the [MIT Licence](LICENSE).
+- **Oak trademarks, logos and brand assets**, including the plugin's icon, are not MIT-licensed. See [BRANDING.md](BRANDING.md) and Oak's [brand guidelines](https://support.thenational.academy/using-the-oak-brand).
 - **Curriculum principles** content is © Oak National Academy. See each skill's `references/sources.md` for sources and attribution.
-- **Oak curriculum data**, reached through the Oak Curriculum MCP, is published under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) except where otherwise stated, and requires attribution to Oak National Academy. Some content may carry third-party rights that the OGL doesn't cover. See [LICENCE-DATA.md](https://github.com/oaknational/oak-open-curriculum-ecosystem/blob/main/LICENCE-DATA.md).
+- **Oak curriculum data**, reached through the Oak Curriculum MCP, is published under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) except where otherwise stated, and requires attribution to Oak National Academy. Some content may carry third-party rights that the OGL doesn't cover. See [LICENCE-DATA.md](LICENCE-DATA.md).
 
-Each skill also states its own terms in its `SKILL.md` frontmatter. Where these differ, the more restrictive terms apply.
+Each skill also states its own terms in its `SKILL.md` frontmatter. Where these differ, the more restrictive terms apply. Credits are in [ATTRIBUTION.md](ATTRIBUTION.md).
