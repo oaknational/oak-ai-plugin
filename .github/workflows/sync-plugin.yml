@@ -2,8 +2,8 @@ name: Sync plugin from the ecosystem
 
 # One-click publish: copies plugins/oak-open-curriculum from
 # oak-open-curriculum-ecosystem at the given ref, strips the excluded paths,
-# rewrites PROVENANCE.json, stubs the root CHANGELOG entry and opens a pull
-# request — so a publish cannot be done inconsistently by hand. The fidelity
+# rewrites PROVENANCE.json, stubs the root CHANGELOG entry, formats both and
+# opens a pull request — so a publish cannot be done inconsistently by hand. The fidelity
 # check runs here too, and again as a required check on the pull request.
 #
 # NOTE: pull requests created with the default GITHUB_TOKEN do not trigger
@@ -52,6 +52,18 @@ jobs:
           echo "COMMIT=$COMMIT" >> "$GITHUB_ENV"
         env:
           RELEASE: ${{ inputs.release }}
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Format PROVENANCE.json and CHANGELOG.md with the pinned Prettier
+        # sync_plugin.py writes JSON with one array item per line; Prettier,
+        # which the lint job checks, wants short arrays on one line. Installed
+        # outside the checkout so `git add -A` below doesn't commit it.
+        run: |
+          npm install --prefix "$RUNNER_TEMP/prettier" --no-save --ignore-scripts --no-audit --no-fund prettier@3.9.6
+          "$RUNNER_TEMP/prettier/node_modules/.bin/prettier" --write PROVENANCE.json CHANGELOG.md
 
       - name: Check the copy against its recorded source
         run: python3 scripts/check_provenance.py
