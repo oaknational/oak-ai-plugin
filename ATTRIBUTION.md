@@ -28,7 +28,7 @@ subject-specific guiding principles, as published by Oak:
 
 The research these principles draw on — including work by the Education
 Endowment Foundation, the Department for Education and Ofsted — is cited in
-full in each skill's `references/sources.md` and
+full in the `oak-curriculum-principles` skill's `references/sources.md` and
 `references/principles-in-depth.md`.
 
 ## WCAG 2.2

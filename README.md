@@ -122,7 +122,7 @@ The MCP sits on top of the [Oak Curriculum API](https://open-api.thenational.aca
 This repository publishes the plugin; it isn't where the plugin is built. The plugin is built in [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem), under `plugins/oak-open-curriculum`, next to the Oak Curriculum MCP server it connects to. That repository is too large for Claude's plugin directory to read, so each release of the plugin is copied here.
 
 - **Feedback, bugs and curriculum corrections:** use the [AI plugin feedback form](https://survey.hsforms.com/2vy6BnIvzTASqx1DbH8CaJAbvumd). GitHub issues are turned off. See [SUPPORT.md](SUPPORT.md) for scope and response times.
-- **Pull requests** are only accepted from Oak engineers. See [CONTRIBUTING.md](CONTRIBUTING.md). Pull requests here only carry copies from the ecosystem repository and changes to this repository's own files. They are squash-merged, so each title is written as a Conventional Commit with the ticket at the end, and becomes the commit on `main`.
+- **Pull requests** are only accepted from Oak engineers. See [CONTRIBUTING.md](CONTRIBUTING.md). Pull requests here only carry copies from the ecosystem repository and changes to this repository's own files. They are squash-merged, so each title is written as a Conventional Commit with the ticket at the end when there is one, and becomes the commit on `main`.
 - **Security vulnerabilities:** see [SECURITY.md](SECURITY.md), never the feedback form.
 - Everyone is expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 

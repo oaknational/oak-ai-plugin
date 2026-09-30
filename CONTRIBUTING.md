@@ -56,7 +56,7 @@ expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
    the `evals/` folders, and add an entry to [CHANGELOG.md](CHANGELOG.md).
 3. Open a pull request against `main`. Its title is a
    [Conventional Commit](https://www.conventionalcommits.org/) with the ticket at
-   the end, because pull requests are squash-merged and the title becomes the
+   the end when there is one, because pull requests are squash-merged and the title becomes the
    commit on `main`. It needs the required checks and an approving review before
    it can merge. The checks are described in
    [.github/workflows/README.md](.github/workflows/README.md).
