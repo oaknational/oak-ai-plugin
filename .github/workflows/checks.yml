@@ -33,7 +33,7 @@ jobs:
       - name: Validate the marketplace
         run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict .
       - name: Validate the Claude plugin
-        run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/plugin/oak-open-curriculum
+        run: ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/plugins/oak-national-academy
       - name: Check the README, CHANGELOG and marketplace entry against the plugin
         run: python3 scripts/check_against_plugin.py
 

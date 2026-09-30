@@ -38,10 +38,10 @@ Each package lives at `<host>/<kind>/<package>/`, so another host, or another ki
 
 ```text
 .claude-plugin/
-  marketplace.json                  # Claude Code marketplace; points at claude/plugin/oak-open-curriculum
+  marketplace.json                  # Claude Code marketplace; points at claude/plugins/oak-national-academy
 claude/
-  plugin/
-    oak-open-curriculum/            # the Claude plugin, copied from the ecosystem repository
+  plugins/
+    oak-national-academy/           # the Claude plugin, copied from the ecosystem repository
       .claude-plugin/plugin.json    #   plugin manifest
       .mcp.json                     #   the Oak Curriculum MCP, installed with the plugin
       agents/                       #   the subagents the workflows hand work to
@@ -88,7 +88,7 @@ Three skills need the **Oak Curriculum MCP** connected. See [The Oak Curriculum 
 ```text
 # In Claude Code:
 /plugin marketplace add oaknational/oak-ai-plugins
-/plugin install oak-open-curriculum@oak-ai-plugins
+/plugin install oak-national-academy@oak-ai-plugins
 ```
 
 Once installed you get:
@@ -98,7 +98,7 @@ Once installed you get:
 | `/find-misconceptions <topic> <year or key stage>` | The pupil misconceptions Oak has documented for a topic, each with a teacher response.         |
 | `/audit-sequence <paste or reference the plan>`    | Checks a draft plan's unit order and prior knowledge against how Oak sequences the same units. |
 
-Commands are namespaced when ambiguous, for example `/oak-open-curriculum:find-misconceptions`. The plugin bundles the Oak Curriculum MCP, so installing it connects live data in the same step: approve the `oak-open-curriculum` server when prompted and sign in on first use.
+Commands are namespaced when ambiguous, for example `/oak-national-academy:find-misconceptions`. The plugin bundles the Oak Curriculum MCP, so installing it connects live data in the same step: approve the `oak-national-academy` server when prompted and sign in on first use.
 
 ## The Oak Curriculum MCP
 
@@ -107,7 +107,7 @@ Commands are namespaced when ambiguous, for example `/oak-open-curriculum:find-m
 ```json
 {
   "mcpServers": {
-    "oak-open-curriculum": {
+    "oak-national-academy": {
       "type": "http",
       "url": "https://mcp.thenational.academy/mcp"
     }
@@ -116,7 +116,7 @@ Commands are namespaced when ambiguous, for example `/oak-open-curriculum:find-m
 ```
 
 - **Transport:** streamable HTTP. **Auth:** OAuth; sign in when prompted.
-- **Claude Code:** `claude mcp add --transport http oak-open-curriculum https://mcp.thenational.academy/mcp`
+- **Claude Code:** `claude mcp add --transport http oak-national-academy https://mcp.thenational.academy/mcp`
 - **Claude apps:** add it as a custom connector with the same URL.
 
 The searches and lookups the assistant makes for you are sent to that server. See Oak's [privacy policy](https://www.thenational.academy/legal/privacy-policy).
@@ -125,7 +125,7 @@ The MCP sits on top of the [Oak Curriculum API](https://open-api.thenational.aca
 
 ## Contributing
 
-This repository publishes the plugin; it isn't where the plugin is built. The plugin is built in [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem), under `plugins/oak-open-curriculum`, next to the Oak Curriculum MCP server it connects to. That repository is too large for Claude's plugin directory to read, so each release of the plugin is copied here. Each copy is made by the [sync workflow](.github/workflows/sync-plugin.yml), recorded in [PROVENANCE.json](PROVENANCE.json), and proven against its source by the Sync fidelity check on every pull request.
+This repository publishes the plugin; it isn't where the plugin is built. The plugin is built in [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem), under `claude/plugins/oak-national-academy`, next to the Oak Curriculum MCP server it connects to. That repository is too large for Claude's plugin directory to read, so each release of the plugin is copied here. Each copy is made by the [sync workflow](.github/workflows/sync-plugin.yml), recorded in [PROVENANCE.json](PROVENANCE.json), and proven against its source by the Sync fidelity check on every pull request.
 
 - **Feedback, bugs and curriculum corrections:** use the [AI plugin feedback form](https://survey.hsforms.com/2vy6BnIvzTASqx1DbH8CaJAbvumd). GitHub issues are turned off. See [SUPPORT.md](SUPPORT.md) for scope and response times.
 - **Pull requests** are only accepted from Oak engineers. See [CONTRIBUTING.md](CONTRIBUTING.md). Pull requests here only carry copies from the ecosystem repository and changes to this repository's own files. They are squash-merged, so each title is written as a Conventional Commit with the ticket at the end when there is one, and becomes the commit on `main`.

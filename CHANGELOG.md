@@ -1,6 +1,11 @@
 # Changelog
 
-Each version is the version of the Claude plugin this repository publishes, copied from [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem). This file records what was published here and when. What changed in the plugin itself is in [its own changelog](claude/plugin/oak-open-curriculum/CHANGELOG.md).
+Each version is the version of the Claude plugin this repository publishes, copied from [oak-open-curriculum-ecosystem](https://github.com/oaknational/oak-open-curriculum-ecosystem). This file records what was published here and when. What changed in the plugin itself is in [its own changelog](claude/plugins/oak-national-academy/CHANGELOG.md).
+
+## 0.1.4 — 2026-09-30
+
+- Publishes the Claude plugin 0.1.4, copied from oak-open-curriculum-ecosystem at 20589f260, without the `evals/` folders.
+- The plugin is renamed `oak-national-academy` and moves to `claude/plugins/oak-national-academy`. A `renames` entry in the marketplace moves existing installs to the new name.
 
 ## 0.1.3 — 2026-09-29
 

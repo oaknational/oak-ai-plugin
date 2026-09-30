@@ -1,6 +1,6 @@
 name: Sync plugin from the ecosystem
 
-# One-click publish: copies plugins/oak-open-curriculum from
+# One-click publish: copies claude/plugins/oak-national-academy from
 # oak-open-curriculum-ecosystem at the given ref, strips the excluded paths,
 # rewrites PROVENANCE.json, stubs the root CHANGELOG entry and opens a pull
 # request — so a publish cannot be done inconsistently by hand. The fidelity
@@ -75,7 +75,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           RELEASE: ${{ inputs.release }}
         run: |
-          VERSION=$(python3 -c "import json; print(json.load(open('claude/plugin/oak-open-curriculum/.claude-plugin/plugin.json'))['version'])")
+          VERSION=$(python3 -c "import json; print(json.load(open('claude/plugins/oak-national-academy/.claude-plugin/plugin.json'))['version'])")
           BRANCH="sync/plugin-${VERSION}-${COMMIT:0:9}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -84,7 +84,7 @@ jobs:
           git diff --cached --quiet && { echo "Nothing changed; the copy already matches ${COMMIT:0:9}."; exit 0; }
           git commit -m "chore: publish the Claude plugin ${VERSION} from the ecosystem at ${COMMIT:0:9}"
           git push origin "$BRANCH"
-          BODY="Copies \`plugins/oak-open-curriculum\` from oak-open-curriculum-ecosystem at ${COMMIT}${RELEASE:+ (release $RELEASE)}, without the excluded paths in PROVENANCE.json. Produced by the **Sync plugin from the ecosystem** workflow; the Sync fidelity check proves the copy."
+          BODY="Copies \`claude/plugins/oak-national-academy\` from oak-open-curriculum-ecosystem at ${COMMIT}${RELEASE:+ (release $RELEASE)}, without the excluded paths in PROVENANCE.json. Produced by the **Sync plugin from the ecosystem** workflow; the Sync fidelity check proves the copy."
           if [ -n "$DERIVED_STALE" ]; then
             BODY="$BODY$(printf '\n\n> [!WARNING]\n> The README, CHANGELOG or marketplace entry no longer match the plugin — update them on this branch before merge.')"
           fi

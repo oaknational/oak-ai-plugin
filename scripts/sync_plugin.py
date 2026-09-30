@@ -27,7 +27,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PUBLISH_PATH = "claude/plugin/oak-open-curriculum"
+PUBLISH_PATH = "claude/plugins/oak-national-academy"
 
 
 def copy_plugin(source_repo: Path, publish: dict) -> None:

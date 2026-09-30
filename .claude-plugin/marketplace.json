@@ -7,11 +7,14 @@
   "description": "Oak National Academy's Open Curriculum plugin for Claude.",
   "plugins": [
     {
-      "name": "oak-open-curriculum",
+      "name": "oak-national-academy",
       "displayName": "Oak National Academy",
-      "source": "./claude/plugin/oak-open-curriculum",
+      "source": "./claude/plugins/oak-national-academy",
       "description": "Work with Oak National Academy's live curriculum graph: surface the pupil misconceptions Oak has documented for a topic, and audit a draft plan against how Oak sequences the same units and the prior knowledge each unit states it assumes. Includes Oak's six curriculum principles and its WCAG 2.2 AA accessibility guidance — grounded in real Oak data.",
       "keywords": ["education", "curriculum", "national-curriculum", "oak", "teaching"]
     }
-  ]
+  ],
+  "renames": {
+    "oak-open-curriculum": "oak-national-academy"
+  }
 }

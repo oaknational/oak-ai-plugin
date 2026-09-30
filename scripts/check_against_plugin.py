@@ -12,7 +12,7 @@ import os
 import re
 import sys
 
-PLUGIN = "claude/plugin/oak-open-curriculum"
+PLUGIN = "claude/plugins/oak-national-academy"
 
 
 def read(path: str) -> str:

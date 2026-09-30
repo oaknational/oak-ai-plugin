@@ -53,7 +53,7 @@ repos:
         files: ^(\.claude-plugin/|claude/)
       - id: validate-claude-plugin
         name: Validate the Claude plugin
-        entry: claude plugin validate --strict claude/plugin/oak-open-curriculum
+        entry: claude plugin validate --strict claude/plugins/oak-national-academy
         language: system
         pass_filenames: false
         files: ^claude/
