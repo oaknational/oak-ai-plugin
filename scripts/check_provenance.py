@@ -2,11 +2,17 @@
 
 PROVENANCE.json records, for every plugin copy this repository publishes,
 the source repository, the commit the copy was taken from, the paths left
-out of the copy and any known, explained divergences. This script clones
-each source at its recorded commit (sparse and blobless, so it is quick)
-and diffs it against the copy. Any differing, missing or extra file that
-is not excluded or recorded as a known divergence fails the check, as does
-a plugin manifest whose version differs from the recorded one.
+out of the copy and any known, explained divergences. This script checks
+that every plugin the marketplace publishes has a provenance entry, clones
+each entry's source at its recorded commit (sparse and blobless, so it is
+quick) and compares the trees file by file. Any differing, missing or
+extra file that is not excluded or recorded as a known divergence fails
+the check, as does a plugin manifest whose version differs from the
+recorded one.
+
+The comparison walks both trees in Python rather than parsing `git diff`
+output: --no-index reports one-sided files as /dev/null and C-quotes
+unusual names, both of which are easy to mishandle silently.
 
 Run by CI (the "Sync fidelity" job); needs network access. Run it locally
 the same way: python3 scripts/check_provenance.py
@@ -14,7 +20,9 @@ the same way: python3 scripts/check_provenance.py
 
 from __future__ import annotations
 
+import filecmp
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -25,10 +33,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 
-def run(args: list[str], cwd: Path) -> str:
-    return subprocess.run(
-        args, cwd=cwd, check=True, capture_output=True, text=True
-    ).stdout
+def run(args: list[str], cwd: Path) -> None:
+    subprocess.run(args, cwd=cwd, check=True, capture_output=True, text=True)
 
 
 def clone_source(publish: dict, workdir: Path) -> Path:
@@ -51,30 +57,41 @@ def clone_source(publish: dict, workdir: Path) -> Path:
     return repo / publish["source_path"]
 
 
+def tree_files(base: Path, excluded_names: set[str]) -> set[str]:
+    """Every file under base as a relative POSIX path, pruning any directory
+    or file whose name is excluded — at any depth, matching how the sync
+    strips exclusions from the copy."""
+    files = set()
+    for dirpath, dirnames, filenames in os.walk(base):
+        dirnames[:] = [d for d in dirnames if d not in excluded_names]
+        for name in filenames:
+            if name not in excluded_names:
+                path = Path(dirpath, name).relative_to(base)
+                files.add(path.as_posix())
+    return files
+
+
 def differing_files(source: Path, copy: Path, excluded: list[str]) -> list[str]:
     """Files that differ between the source tree and the copy, as paths
-    relative to the copy. Excluded paths are pruned from the source first,
-    so a file is reported when it differs, is missing from the copy, or
-    exists only in the copy."""
-    for pattern in excluded:
-        target = source / pattern.rstrip("/")
-        if target.is_dir():
-            shutil.rmtree(target)
-        elif target.exists():
-            target.unlink()
-    proc = subprocess.run(
-        ["git", "diff", "--no-index", "--name-only", str(source), str(copy)],
-        capture_output=True,
-        text=True,
+    relative to the copy: changed content, missing from the copy, or
+    present only in the copy."""
+    excluded_names = {p.rstrip("/") for p in excluded}
+    source_files = tree_files(source, excluded_names)
+    copy_files = tree_files(copy, excluded_names)
+    differing = source_files ^ copy_files
+    for name in source_files & copy_files:
+        if not filecmp.cmp(source / name, copy / name, shallow=False):
+            differing.add(name)
+    return sorted(differing)
+
+
+def published_paths() -> set[str]:
+    """The plugin copies this repository actually publishes, from the
+    marketplace file — the set PROVENANCE.json must cover."""
+    marketplace = json.loads(
+        (ROOT / ".claude-plugin" / "marketplace.json").read_text(encoding="utf-8")
     )
-    if proc.returncode not in (0, 1):
-        raise RuntimeError(f"git diff failed: {proc.stderr}")
-    names = set()
-    for line in proc.stdout.splitlines():
-        for base in (str(source), str(copy)):
-            if line.startswith(base + "/"):
-                names.add(line[len(base) + 1 :])
-    return sorted(names)
+    return {p["source"].removeprefix("./") for p in marketplace["plugins"]}
 
 
 def check_publish(publish: dict) -> list[str]:
@@ -86,16 +103,23 @@ def check_publish(publish: dict) -> list[str]:
         problems.append(f"{publish['path']}: commit must be a full 40-character SHA")
         return problems
 
-    manifest = json.loads((copy / ".claude-plugin" / "plugin.json").read_text())
+    manifest = json.loads(
+        (copy / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8")
+    )
     if manifest["version"] != publish["plugin_version"]:
         problems.append(
             f"{publish['path']}: plugin.json says {manifest['version']}, "
             f"PROVENANCE.json says {publish['plugin_version']}"
         )
 
-    with tempfile.TemporaryDirectory() as tmp:
+    # Not a TemporaryDirectory context: git can still be writing maintenance
+    # files when the check finishes, and a cleanup failure must not fail it.
+    tmp = tempfile.mkdtemp()
+    try:
         source = clone_source(publish, Path(tmp))
         differing = differing_files(source, copy, publish["excluded"])
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
 
     allowed = {d["file"] for d in publish.get("known_divergences", [])}
     for name in differing:
@@ -114,15 +138,26 @@ def check_publish(publish: dict) -> list[str]:
 
 
 def main() -> int:
-    provenance = json.loads((ROOT / "PROVENANCE.json").read_text())
+    provenance = json.loads((ROOT / "PROVENANCE.json").read_text(encoding="utf-8"))
     problems = []
+
+    recorded = {p["path"] for p in provenance["publishes"]}
+    for path in sorted(published_paths() - recorded):
+        problems.append(
+            f"{path}: published by the marketplace but has no PROVENANCE.json entry"
+        )
+
     for publish in provenance["publishes"]:
         problems.extend(check_publish(publish))
-    prefix = "::error::" if subprocess.os.environ.get("GITHUB_ACTIONS") else "error: "
+
+    prefix = "::error::" if os.environ.get("GITHUB_ACTIONS") else "error: "
     for problem in problems:
         print(f"{prefix}{problem}")
     if not problems:
-        print(f"Sync fidelity: {len(provenance['publishes'])} publish(es) match their recorded sources.")
+        print(
+            f"Sync fidelity: {len(provenance['publishes'])} publish(es) "
+            "match their recorded sources."
+        )
     return 1 if problems else 0
 
 

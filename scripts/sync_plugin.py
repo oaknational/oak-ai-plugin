@@ -82,7 +82,9 @@ def main() -> None:
         (ROOT / publish["path"] / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8")
     )
     publish["commit"] = args.commit
-    publish["release"] = args.release or publish["release"]
+    # No --release means this commit has no known release: record null rather
+    # than carrying the previous publish's release forward to a new commit.
+    publish["release"] = args.release
     publish["plugin_version"] = manifest["version"]
     publish["known_divergences"] = []
     provenance_file.write_text(
