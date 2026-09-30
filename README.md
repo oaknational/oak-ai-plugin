@@ -56,7 +56,7 @@ claude/
     link-check.yml                  # internal links and anchors
     pr-title.yml                    # the pull request title, which becomes the commit on main
     sync-plugin.yml                 # copies a plugin version from the ecosystem and opens the publish PR
-    drift.yml                       # weekly: fails when the ecosystem is ahead of what's published
+    drift.yml                       # weekly: fails when the ecosystem is ahead of what's published, or the plugin no longer validates with the latest Claude Code
 scripts/
   check_against_plugin.py           # checks this README, the CHANGELOG and the marketplace entry against the plugin
   check_provenance.py               # checks each copy against the source commit in PROVENANCE.json

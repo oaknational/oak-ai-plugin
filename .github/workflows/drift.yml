@@ -1,10 +1,19 @@
 name: Publish drift
 
-# Weekly alarm: fails when the ecosystem's plugin version is ahead of the
-# one this repository publishes, so the repository's watchers hear about a
-# release that hasn't been synced. Issues are off here by design — a red
-# scheduled run is the notification. Catch up by running the "Sync plugin
-# from the ecosystem" workflow.
+# Weekly alarms for the two ways this repository can silently fall behind
+# the world. Issues are off here by design, so a red run of this workflow is
+# the signal. GitHub emails scheduled-run failures ONLY to whoever last
+# edited the workflow file — keep that a maintainer, and re-save the file if
+# that person leaves. A team channel notification can hang off the Oak
+# Semantic Release Bot's token once that is set up (see the workflows
+# README); until then the Actions tab badge is the shared view.
+#
+#   drift: the ecosystem's plugin version is ahead of the one published
+#   here. Catch up by running the "Sync plugin from the ecosystem" workflow.
+#
+#   spec: the plugin no longer validates against the LATEST Claude Code.
+#   Pull requests validate with a pinned binary so they stay deterministic;
+#   this job is the early warning that Anthropic's spec moved under us.
 
 on:
   schedule:
@@ -25,3 +34,28 @@ jobs:
           persist-credentials: false
       - name: Compare each published version with its source's default branch
         run: python3 scripts/check_drift.py
+
+  spec:
+    name: Validate with the latest Claude Code
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+      - name: Install today's Claude Code binary (lifecycle scripts disabled)
+        # Unpinned by design: this job exists to hear about spec changes, so
+        # it resolves whatever is current, names it in the log, and installs
+        # that exact version. Pull requests keep the pinned binary.
+        run: |
+          LATEST=$(npm view @anthropic-ai/claude-code-linux-x64 version)
+          echo "Validating with Claude Code ${LATEST}"
+          npm install --no-save --ignore-scripts --no-audit --no-fund "@anthropic-ai/claude-code-linux-x64@${LATEST}"
+      - name: Validate the marketplace and the plugin against today's spec
+        run: |
+          ./node_modules/@anthropic-ai/claude-code-linux-x64/claude --version
+          ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict .
+          ./node_modules/@anthropic-ai/claude-code-linux-x64/claude plugin validate --strict claude/plugin/oak-open-curriculum

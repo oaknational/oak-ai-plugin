@@ -7,8 +7,9 @@ repository doesn't publish yet — run the "Sync plugin from the
 ecosystem" workflow to catch up.
 
 Run weekly by CI (the "Publish drift" workflow), whose failure is the
-alarm: issues are off here by design, so a red scheduled run notifying
-the repository's watchers is the signal. Version-only on purpose: the
+alarm: issues are off here by design, so a red scheduled run is the
+signal — GitHub emails it only to whoever last edited the workflow
+file, so keep that a maintainer. Version-only on purpose: the
 fidelity check already proves the copy matches its pinned commit, and
 the ecosystem bumps the manifest version whenever the plugin changes.
 
