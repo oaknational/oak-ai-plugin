@@ -4,7 +4,7 @@
     "name": "Oak National Academy",
     "url": "https://www.thenational.academy"
   },
-  "description": "Oak National Academy's Open Curriculum plugin for Claude.",
+  "description": "Oak National Academy's plugins for Claude.",
   "plugins": [
     {
       "name": "oak-national-academy",

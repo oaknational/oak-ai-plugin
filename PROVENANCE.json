@@ -6,10 +6,15 @@
       "source_repo": "https://github.com/oaknational/oak-open-curriculum-ecosystem",
       "source_path": "claude/plugins/oak-national-academy",
       "commit": "20589f2603e9250c740d760ace52b9b46345c48f",
-      "release": null,
+      "release": "v1.185.4",
       "plugin_version": "0.1.4",
       "excluded": ["evals/"],
-      "known_divergences": []
+      "known_divergences": [
+        {
+          "file": "CHANGELOG.md",
+          "reason": "The 0.1.4 entry here dates the release (v1.185.4) where the source still says unreleased; the same fix is to follow in the ecosystem repository. Remove once it lands and the next sync picks it up."
+        }
+      ]
     }
   ]
 }

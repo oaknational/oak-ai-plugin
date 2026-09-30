@@ -3,7 +3,7 @@
 Versions are the plugin manifest version. The Claude Code plugin and the
 ChatGPT/Codex package are cut from the same source at the same version.
 
-## 0.1.4 — unreleased
+## 0.1.4 — 2026-09-30 (repo release v1.185.4)
 
 - The Claude plugin and the ChatGPT/Codex package are renamed from
   `oak-open-curriculum` to `oak-national-academy`, to match the display name.
