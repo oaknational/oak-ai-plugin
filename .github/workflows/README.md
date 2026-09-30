@@ -1,8 +1,10 @@
 # CI workflows
 
 Every workflow here declares an explicit `permissions:` block, pins third-party
-actions to a full commit SHA with the version in a trailing comment, installs
-tools with lifecycle scripts disabled, and sets a job timeout.
+actions to a full commit SHA with the version in a trailing comment, and sets a
+job timeout. Tools installed from npm are installed with lifecycle scripts
+disabled, and the gitleaks archive is checked against its published checksum
+before it runs.
 
 | Workflow                           | Runs when                                           | What it does                                                                                                                                                                                            |
 | ---------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

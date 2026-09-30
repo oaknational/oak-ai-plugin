@@ -11,7 +11,9 @@ For Oak branding, see [BRANDING.md](BRANDING.md).
 Curriculum content the plugins return through the Oak Curriculum MCP comes from
 the [Oak Open Curriculum API](https://open-api.thenational.academy/) and is
 provided under the
-[Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+[Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/),
+except where otherwise stated. Some content may carry third-party rights that
+the OGL doesn't cover. See [LICENCE-DATA.md](LICENCE-DATA.md).
 
 > Contains public sector information licensed under the Open Government
 > Licence v3.0.
