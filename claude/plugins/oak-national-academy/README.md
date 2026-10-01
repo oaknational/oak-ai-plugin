@@ -24,7 +24,7 @@ Every Oak resource is free to use and adapt for your pupils.
 
 Oak's Claude plugin is designed for teachers and others who work with curriculum. It is not designed for pupils to use.
 
-As with all Oak products, we design in line with the DfE's [Generative AI Product Safety Standards](https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards#stated-purpose). Its intended use is creating and preparing teaching content, such as planning lessons and finding resources.
+As with all Oak products, we design in line with the DfE's [Generative AI Product Safety Standards](https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards#stated-purpose). The plugin's intended use is creating and preparing teaching content, such as planning lessons and finding resources.
 
 Never enter pupils' names or any other personal information about pupils into Claude or any other AI tool. The same goes for confidential school information.
 

@@ -4,7 +4,7 @@ Each version is the version of the Claude plugin this repository publishes, copi
 
 ## 0.1.6 — 2026-10-01
 
-- Publishes the Claude plugin 0.1.6, copied from oak-open-curriculum-ecosystem at 34c3a45d9, without the `evals/` folders. 0.1.5 was not published here; its changes are included.
+- Publishes the Claude plugin 0.1.6, copied from oak-open-curriculum-ecosystem at a7cf0cc19, without the `evals/` folders. 0.1.5 was not published here; its changes are included.
 - The plugin gains support, documentation and terms of service links for its directory listing, and names this repository as its repository.
 - New listing text: a one-line description, and a README that says who the plugin is for and the DfE standards it is designed in line with, warns against entering pupil data, and links Oak's and Anthropic's privacy policies.
 - The copy matches its source exactly, so no differences are recorded.

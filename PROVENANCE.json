@@ -5,7 +5,7 @@
       "path": "claude/plugins/oak-national-academy",
       "source_repo": "https://github.com/oaknational/oak-open-curriculum-ecosystem",
       "source_path": "claude/plugins/oak-national-academy",
-      "commit": "34c3a45d97a2f44e1bc0bd17c1aa75e57b9312b7",
+      "commit": "a7cf0cc19a96adb3f39a4901f28d5996316be8fe",
       "release": null,
       "plugin_version": "0.1.6",
       "excluded": ["evals/"],
