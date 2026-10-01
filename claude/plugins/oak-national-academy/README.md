@@ -26,6 +26,8 @@ Oak's Claude plugin is designed for teachers and others who work with curriculum
 
 As with all Oak products, we design in line with the DfE's [Generative AI Product Safety Standards](https://www.gov.uk/government/publications/generative-ai-product-safety-standards/generative-ai-product-safety-standards#stated-purpose). Its intended use is creating and preparing teaching content, such as planning lessons and finding resources.
 
+Never enter pupils' names or any other personal information about pupils into Claude or any other AI tool. The same goes for confidential school information.
+
 Claude can draw on Oak's content, but will not always do this. Its outputs are AI-generated and not endorsed by Oak. You are the expert and know your pupils best. As with all resources, check carefully that what you create is right for your pupils and context.
 
 Oak content is licensed under the Open Government Licence v3.0 and requires attribution to Oak. A small amount of Oak’s content is not available through this Claude plugin due to copyright and licensing restrictions.
@@ -46,10 +48,4 @@ Explore the full library at thenational.academy.
 
 The plugin connects to one service, Oak's curriculum server at <https://mcp.thenational.academy/mcp>. You sign in when prompted, and the searches and lookups Claude makes for you are sent there. See Oak's [privacy policy](https://www.thenational.academy/legal/privacy-policy).
 
-**What Oak stores.** When you sign in, we store your name, email address and country through Clerk, our sign-in provider. We also keep pseudonymised records of which tools were used and when, so we can see how the service is working. We keep account data for 2 years after your last sign-in, and you can delete your account at any time.
-
-**What Oak does not store.** The searches and lookups Claude makes for you are sent to our server so it can return the right content. We don't keep them. We don't store your conversations with Claude.
-
-**What happens in Claude.** Your conversations are handled by Anthropic under its own terms and privacy policy. On a personal Claude account, your conversations may be used to train Anthropic's models unless you turn this off in Settings → Privacy → "Help improve Claude".
-
-**Don't enter pupil data.** Never enter pupils' names or any other personal information about pupils into Claude or any other AI tool. The same goes for confidential school information.
+Your conversations with Claude are handled by Anthropic under its own [privacy policy](https://www.anthropic.com/legal/privacy).

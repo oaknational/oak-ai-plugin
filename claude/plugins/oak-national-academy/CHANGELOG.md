@@ -7,8 +7,9 @@ the oak-open-curriculum-ecosystem release that shipped it.
 
 ## 0.1.6 — 2026-10-01
 
-- The Claude plugin README says who the plugin is for, the DfE standards it is
-  designed in line with, and what Oak stores and does not store.
+- The Claude plugin README says who the plugin is for and the DfE standards it
+  is designed in line with, warns against entering pupil data, and links
+  Anthropic's privacy policy alongside Oak's.
 
 ## 0.1.5 — 2026-09-30
 
